@@ -498,4 +498,59 @@ export default function App(): JSX.Element {
                   {showCompleted ? "Hide Task History" : "View Task History"}
                 </Button>
 
-                {
+                {showCompleted && (
+                  <ul className="mt-3 space-y-2" style={{ maxHeight: "30vh", overflowY: "auto" }}>
+                    {completed.map((task) => (
+                      <li key={task.id} className={`border p-2 rounded-md ${taskCardClass}`}>
+                        <div className="flex items-start gap-2">
+                          {task.image && <img src={task.image} alt={`Completed ${task.id} thumbnail`} className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 rounded object-cover" />}
+                          <div>
+                            <p className="text-sm line-through opacity-80">{task.text}</p>
+                            <p className="text-xs opacity-60">Completed (created {task.date})</p>
+                            {task.installerNote ? (
+                              <p className="text-xs mt-1 italic opacity-80">Installer Note: {task.installerNote}</p>
+                            ) : (
+                              <div className="mt-1 flex gap-1">
+                                <Input placeholder="Add installer note..." onBlur={(e) => addInstallerNote(task.id, e.target.value)} className="text-xs" />
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            )}
+
+            <div className="mt-4">
+              {!hasOpenTasks && <p className="text-xs opacity-70 mb-1">No open tasks yet. Create a task before requesting service.</p>}
+              <Button
+                className={`w-full mt-2 ${requestedService ? "bg-red-600 hover:bg-red-700 text-white" : "bg-[#1C5DAE] hover:bg-[#164C8E] text-white"}`}
+                onClick={handleRequestService}
+                disabled={!hasOpenTasks}
+                aria-pressed={requestedService}
+              >
+                {requestedService ? (
+                  <>
+                    <XCircle className="h-4 w-4 mr-1" />Cancel Request
+                  </>
+                ) : (
+                  <>
+                    <CalendarClock className="h-4 w-4 mr-1" />Request Service
+                  </>
+                )}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      );
+    }
+
+    return null;
+  };
+
+  return (
+    <div className={`min-h-screen p-4 ${isDark ? "bg-[#0B1220] text-gray-100" : "bg-gray-100 text-black"}`}>
+      <div className="max-w-full lg:max-w-6xl mx-auto px-4">
+        <div className
