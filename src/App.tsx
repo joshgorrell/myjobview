@@ -553,4 +553,79 @@ export default function App(): JSX.Element {
   return (
     <div className={`min-h-screen p-4 ${isDark ? "bg-[#0B1220] text-gray-100" : "bg-gray-100 text-black"}`}>
       <div className="max-w-full lg:max-w-6xl mx-auto px-4">
-        <div className
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-4">
+            <img src="/EL-logo-color.png" alt="Electronic Life Logo" className="h-10 sm:h-12 lg:h-16 object-contain" />
+            <div className="hidden sm:block">
+              <h1 className="font-bold text-lg sm:text-xl lg:text-2xl">Electronic Life App</h1>
+              <p className="text-xs sm:text-sm opacity-70">Customer portal</p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" className={buttonStyle} onClick={toggleMode}>
+              Toggle {isDark ? "Light" : "Dark"} Mode
+            </Button>
+          </div>
+        </div>
+
+        {/* Desktop grid: sidebar | main | right panel */}
+        <div className="lg:grid lg:grid-cols-6 lg:gap-6">
+          {/* Sidebar (vertical nav on desktop, hidden on small screens) */}
+          <aside className="hidden md:block lg:col-span-1">
+            <div className={`p-3 rounded ${isDark ? "bg-gray-900 border border-gray-700" : "bg-white border border-gray-200"}`}>
+              <nav className="flex flex-col gap-2">
+                <Button variant="ghost" className={`justify-start ${page === "dashboard" ? "bg-[#e6f0ff] text-[#1C5DAE]" : ""}`} onClick={() => setPage("dashboard")}>
+                  <div className="flex items-center gap-2">
+                    <Home /> <span className="hidden lg:inline">Dashboard</span>
+                  </div>
+                </Button>
+                <Button variant="ghost" className={`justify-start ${page === "tasks" ? "bg-[#e6f0ff] text-[#1C5DAE]" : ""}`} onClick={() => setPage("tasks")}>
+                  <div className="flex items-center gap-2">
+                    <ClipboardList /> <span className="hidden lg:inline">Tasks</span>
+                  </div>
+                </Button>
+                <Button variant="ghost" className={`justify-start ${page === "messages" ? "bg-[#e6f0ff] text-[#1C5DAE]" : ""}`} onClick={() => setPage("messages")}>
+                  <div className="flex items-center gap-2">
+                    <MessageSquare /> <span className="hidden lg:inline">Messages</span>
+                  </div>
+                </Button>
+                <Button variant="ghost" className={`justify-start ${page === "contact" ? "bg-[#e6f0ff] text-[#1C5DAE]" : ""}`} onClick={() => setPage("contact")}>
+                  <div className="flex items-center gap-2">
+                    <Phone /> <span className="hidden lg:inline">Contact</span>
+                  </div>
+                </Button>
+              </nav>
+            </div>
+          </aside>
+
+          {/* Main content: spans 4 cols on lg */}
+          <main className="lg:col-span-4">
+            <div className={`border rounded-xl p-4 ${isDark ? "border-gray-700 bg-gray-900 text-gray-100" : "border-gray-200 bg-white text-black"}`}>
+              {renderPage()}
+
+              {/* Bottom nav (visible on small screens) */}
+              <div className={`flex justify-around mt-4 border-t pt-2 md:hidden ${isDark ? "border-gray-700" : "border-gray-300"}`}>
+                <Button variant="ghost" className={`${isDark ? "text-gray-100 hover:bg-gray-800" : "text-black hover:bg-gray-100"}`} onClick={() => setPage("dashboard")} aria-label="Go to dashboard">
+                  <Home />
+                </Button>
+                <Button variant="ghost" className={`${isDark ? "text-gray-100 hover:bg-gray-800" : "text-black hover:bg-gray-100"}`} onClick={() => setPage("tasks")} aria-label="Go to tasks">
+                  <ClipboardList />
+                </Button>
+                <Button variant="ghost" className={`${isDark ? "text-gray-100 hover:bg-gray-800" : "text-black hover:bg-gray-100"}`} onClick={() => setPage("messages")} aria-label="Go to messages">
+                  <MessageSquare />
+                </Button>
+                <Button variant="ghost" className={`${isDark ? "text-gray-100 hover:bg-gray-800" : "text-black hover:bg-gray-100"}`} onClick={() => setPage("contact")} aria-label="Go to contact">
+                  <Phone />
+                </Button>
+              </div>
+            </div>
+          </main>
+
+          {/* Right contextual panel: visible on lg */}
+          {renderRightPanel()}
+        </div>
+      </div>
+    </div>
+  );
+}
